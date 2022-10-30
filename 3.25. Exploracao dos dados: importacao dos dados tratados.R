@@ -8,36 +8,36 @@ if(!require(rstatix)) install.packages("rstatix")
 library(rstatix)
 
 # BUSCAR DIRET?RIO (PASTA COM OS ARQUIVOS)
-setwd("C:/Users/Luciano/Desktop/Linguagem_R/dados-covid-sp-master/data")
+setwd("~/Documentos/Linguagem R/3.20. Extracao do data frame do projeto 1/data")
 
 # ABRIR ARQUIVO
-covid_sp_tratado <- read.csv2('covid_sp_tratado.csv', sep = ",", encoding="UTF-8")
+covid_sp_tratado <- read.csv('covid_sp_tratado.csv', sep = ",", encoding="UTF-8")
 View(covid_sp_tratado)
 
-covid_sp_tratado <- read.csv2('covid_sp_tratado.csv', sep = ",")
-View(covid_sp_tratado)
+# covid_sp_tratado <- read.csv2('covid_sp_tratado.csv', sep = ",")
+# View(covid_sp_tratado)
 
-glimpse(covid_sp_tratado)
+str(covid_sp_tratado)
 
-covid_sp_tratado <- read.csv('covid_sp_tratado.csv', sep = ",")
-View(covid_sp_tratado)
+# covid_sp_tratado <- read.csv('covid_sp_tratado.csv', sep = ",")
+# View(covid_sp_tratado)
 
-glimpse(covid_sp_tratado)
+# glimpse(covid_sp_tratado)
 
 covid_sp_tratado$data <- as.Date(covid_sp_tratado$data, format ='%Y-%m-%d')
-glimpse(covid_sp_tratado)
+str(covid_sp_tratado)
 
 covid_sp_tratado$idoso <- as.numeric(covid_sp_tratado$idoso)
-glimpse(covid_sp_tratado)
+str(covid_sp_tratado)
 
 # Excluir coluna idoso(%)
-covid_sp_tratado <- select(covid_sp_tratado, -c(18))
+# covid_sp_tratado <- select(covid_sp_tratado, -c(18))
 
 # Renomeando a coluna idoso
-covid_sp_tratado <- rename(covid_sp_tratado, porcentagem_idoso = idoso)
+# covid_sp_tratado <- rename(covid_sp_tratado, porcentagem_idoso = idoso)
 
 
-
+View(covid_sp_tratado)
 
 
 
