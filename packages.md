@@ -8,3 +8,4 @@
 #### ggplot2 : visualização de dados
 #### ggpubr : complemento do ggplot2
 #### corrplot : correlograma
+#### ...
