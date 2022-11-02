@@ -1,4 +1,4 @@
-### if(!require(?)) install.packages("?", dependencies=TRUE)
+### install.packages("?")
 ### library(?)
 #### dplyr : manipulação de dataframe
 #### sqldf : manipulação de dataframe utilizando comandos sqlite
@@ -8,4 +8,4 @@
 #### ggplot2 : visualização de dados
 #### ggpubr : complemento do ggplot2
 #### corrplot : correlograma
-#### ---
+#### tidyverse : pacote com diversos utilitarios

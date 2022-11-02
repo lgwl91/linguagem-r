@@ -4,7 +4,7 @@
 
 # CARREGAR PACOTES
 library(dplyr)
-if(!require(rstatix)) install.packages("rstatix") 
+if(!require(rstatix)) install.packages("rstatix", dependencies = TRUE)
 library(rstatix)
 
 # BUSCAR DIRET?RIO (PASTA COM OS ARQUIVOS)
@@ -27,8 +27,8 @@ str(covid_sp_tratado)
 covid_sp_tratado$data <- as.Date(covid_sp_tratado$data, format ='%Y-%m-%d')
 str(covid_sp_tratado)
 
-covid_sp_tratado$idoso <- as.numeric(covid_sp_tratado$idoso)
-str(covid_sp_tratado)
+# covid_sp_tratado$idoso <- as.numeric(covid_sp_tratado$idoso)
+# str(covid_sp_tratado)
 
 # Excluir coluna idoso(%)
 # covid_sp_tratado <- select(covid_sp_tratado, -c(18))
@@ -39,9 +39,16 @@ str(covid_sp_tratado)
 
 View(covid_sp_tratado)
 
+qry <- "
+select *, ((pop_60*1.0) / (pop*1.0)) * 100 as idoso
+from covid_sp_tratado
+"
 
+covid_sp_tratado_bkp <- covid_sp_tratado
 
-
+library(sqldf)
+covid_sp_tratado <- sqldf(qry)
+View(covid_sp_tratado)
 
 
 # Filtro por linha (cidade)
@@ -87,8 +94,8 @@ mean(covid_guarulhos$obitos_novos)
 mean(covid_guarulhos$casos_novos)
 
 # M?dia m?vel
-plot(covid_campinas$data,covid_campinas$casos_mm7d, title("M?DIA M?VEL"), col = "red")
-plot(covid_campinas$data,covid_campinas$obitos_mm7d, title("M?DIA M?VEL"), col = "purple")
+plot(covid_campinas$data,covid_campinas$casos_mm7d, title("MEDIA MOVEL"), col = "red")
+plot(covid_campinas$data,covid_campinas$obitos_mm7d, title("MEDIA MOVEL"), col = "purple")
 
 
 
@@ -151,10 +158,8 @@ hist(covid_guarulhos$casos_novos, col="yellow")
 
 
 
-
-
-
-
+install.packages("tidyverse")
+library(dplyr)
 
 # Medidas de posi??o
 
@@ -237,6 +242,11 @@ outliers = c(boxplot.stats(covid_guarulhos$casos_novos)$out)
 covid_guarulhos_sem_outliers <- covid_guarulhos[-c(which(covid_guarulhos$casos_novos %in% outliers)),  ]
 boxplot(covid_guarulhos_sem_outliers$casos_novos)
 
+boxplot(covid_campinas$casos_novos)
+covid_campinas %>% identify_outliers(casos_novos)
+outliers_campinas = c(boxplot.stats(covid_campinas$casos_novos)$out)
+covid_campinas_sem_outliers <- covid_campinas[-c(which(covid_campinas$casos_novos %in% outliers_campinas)),  ]
+boxplot(covid_campinas_sem_outliers$casos_novos, outline = FALSE)
 
 # Excluindo alguns outliers
 covid_campinas %>% identify_outliers(casos_novos)
@@ -365,16 +375,14 @@ library(ggpubr)
 ggplot(data = covid_campinas, mapping = aes(x = casos, y = obitos)) +
   geom_point() +
   geom_smooth(method = "lm", col = "red") +
-  stat_regline_equation(aes(label = paste(..eq.label.., ..adj.rr.label..,
-                            sep = "*plain(\" ,   \")~~")), label.x = 15000,
-                            label.y = 1800) +
+  #stat_regline_equation(aes(label = paste(..eq.label.., ..adj.rr.label.., sep = "*plain(\" ,   \")~~")), label.x = 15000, label.y = 1800) +
   theme_gray()
 
 
 if(!require(corrplot)) install.packages("corrplot")                               
 library(corrplot) # gr?fico de correla??o 
 
-matriz_corr <- cor(covid_campinas[5:13], method = "spearman")
+matriz_corr <- cor(covid_campinas[5:8], method = "spearman")
 View(matriz_corr)
 
 corrplot(matriz_corr, method = "color")
