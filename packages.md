@@ -9,3 +9,4 @@
 #### ggpubr : complemento do ggplot2
 #### corrplot : correlograma
 #### tidyverse : pacote com diversos utilitarios
+#### rodbc : possibilidade de conexao com MSSQL atraves de odbc
